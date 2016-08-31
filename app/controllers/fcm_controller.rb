@@ -2,15 +2,15 @@ require 'fcm'
 class FcmController < ApplicationController
   def sendPushNote
     fcm = FCM.new("key=1:776651629509:android:3bb1e8b0a3e6ec29")
-    registration_ids= ["dxZK7s9gFAo:APA91bGvZiuljOrnu6uAAIxSRjFIRnkFB736IqA98p7Tg6Zazyj97eWMHv6xWF7vDVqTOBgM9fpkZwpPZH45tcpqvr0sFta6Lwgp-X3k03GUNks4FvvF9-iKThG4w1DKtjB9Bp47Y0Nc"] # an array of one or more client registration tokens
+    registration_ids= ["fuOeAA-fPwI:APA91bFiUr7nNKOkXZEQYswuXq7AuQ4Hzjhw_OO-V3TGC3BnHNueZnvt8noE-35-MtQ_3qKgGig7pvYQZCBjVVSaWZPqrS8WRoNShZ0AhWPW-ByurLtBaNwVg6Zd_cIiv_0IFgSpn77g"] # an array of one or more client registration tokens
     options = {data: {score: "123"}, collapse_key: "updated_score"}
     response = fcm.send(registration_ids, options)
-    # case response.status_code
-    # when 200
-      	# render json: {response: JSON.parse(response.body)}, statu: :ok
-    # else
-      	# render json: {response: "Unknown Request"}, status: :un_processible_entity
-    # end # when
-    render json: {response: "success"}, status: :ok
+    case response[:status]
+      when 200
+      	render json: {response: response[:body]}, statu: :ok
+      else
+        render json: {response: response[:body]}, statu: :un_processible_entity
+      end # when
+    # render json: {response: "success"}, status: :ok
   end # sendPush
 end # class
